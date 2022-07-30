@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="container pt-2">
+            {% for entry in entries %}
+                <div class="card mt-2">
+                    <div class="card-header">
+                        {{ entry.test_day }}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Overall result: 
+                            <span class="{{ 'text-success' if entry.summary.overall_success_percent == 100 else 'text-danger'}}">
+                                <b>{{ "OK" if entry.summary.overall_success_percent == 100 else "FAIL" }}</b>
+                            </span>
+                        </h5>
+                        <p class="card-text">
+                            <span><b>Total number of test suites: </b> {{ entry.summary.total_tests_executed }}</span> |
+                            <span><b>Successfull test suites: </b> {{ entry.summary.successful_tests }}</span> |
+                            <span><b>Failed test suites: </b> {{ entry.summary.failed_tests }}</span> |
+                            <span><b>Total runtime: </b> {{ entry.summary.total_time }}</span>
+                        </p>
+                        <a href="{{ entry.test_id }}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
+

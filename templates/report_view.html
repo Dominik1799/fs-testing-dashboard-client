@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="container">
+            <div class="card mb-3 mt-3">
+                <div class="row g-0">
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title">Summary</h3>
+                      <p class="card-text">
+                        <span><b>Total number of test suites: </b> {{ entry.summary.total_tests_executed }}</span> <br>
+                        <span><b>Successfull test suites: </b> {{ entry.summary.successful_tests }}</span> <br>
+                        <span><b>Failed test suites: </b> {{ entry.summary.failed_tests }}</span> <br>
+                        <span><b>Overall success: </b> {{ entry.summary.failed_tests }} %</span> <br>
+                        <span><b>Total runtime: </b> {{ entry.summary.total_time }}</span>
+                    </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h3>Test suite reports</h3>
+              <table class="table">
+                <thead>
+                    <th style="user-select: none;" role="button">Name</th>
+                    <th style="user-select: none;" role="button">Result</th>
+                    <th style="user-select: none;" role="button">Tests</th>
+                    <th style="user-select: none;" role="button">Passed</th>
+                    <th style="user-select: none;" role="button">Failed</th>
+                    <th style="user-select: none;" role="button">Duration</th>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for report in entry.reports %}
+                        <TR>
+                            <TD>{{report.test_name}}</TD>
+                            <TD class="{{ 'text-success' if report.test_results.result == 'Passed' else 'text-danger'}}">
+                                {{report.test_results.result}}
+                            </TD>
+                            <TD>{{report.test_results.tests}}</TD>
+                            <TD>{{report.test_results.passed}}</TD>
+                            <TD>{{report.test_results.failed}}</TD>
+                            <TD>{{report.test_results.duration}}</TD>
+                            <TD><a target="_blank" href="/view/{{ report.full_test_name }}/" class="btn btn-primary">View</a></TD>
+                        </TR>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
+
