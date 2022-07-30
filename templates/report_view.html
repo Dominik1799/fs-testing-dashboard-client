@@ -16,7 +16,7 @@
                         <span><b>Total number of test suites: </b> {{ entry.summary.total_tests_executed }}</span> <br>
                         <span><b>Successfull test suites: </b> {{ entry.summary.successful_tests }}</span> <br>
                         <span><b>Failed test suites: </b> {{ entry.summary.failed_tests }}</span> <br>
-                        <span><b>Overall success: </b> {{ entry.summary.failed_tests }} %</span> <br>
+                        <span><b>Overall success: </b> {{ entry.summary.overall_success_percent }} %</span> <br>
                         <span><b>Total runtime: </b> {{ entry.summary.total_time }}</span>
                     </p>
                     </div>
@@ -45,7 +45,7 @@
                             <TD>{{report.test_results.passed}}</TD>
                             <TD>{{report.test_results.failed}}</TD>
                             <TD>{{report.test_results.duration}}</TD>
-                            <TD><a target="_blank" href="/view/{{ report.full_test_name }}/" class="btn btn-primary">View</a></TD>
+                            <TD><a target="_blank" href="{{ 'http://' + nginx + '/' + distribution + '/' +report.full_test_name + '/report.html'}}" class="btn btn-primary">View</a></TD>
                         </TR>
                     {% endfor %}
                 </tbody>

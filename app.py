@@ -41,13 +41,16 @@ def reports(report):
         entries = format_data(entries)
         return render_template("reports.html", entries=entries)
     r = requests.get(BASE_URL + "/reports/" + str(report))
-    return render_template("report_view.html", entry=r.json())
+    nginx = os.environ["CURRENT_IP"] + ":" + os.environ["NGINX_PORT"]
+    return render_template("report_view.html", entry=r.json(), nginx=nginx, distribution="daily_BY")
 
-@app.route("/view/<report>/")
-def render_report(report):
-    STATIC_SERVER = os.environ["NGINX_URL"].rstrip("/")
-    full_path = STATIC_SERVER + "/" + "daily_BY" + "/" + report + "/report.html" 
-    return redirect(full_path, 301)
+# for some reason does not work in docker
+# @app.route("/view/<report>/")
+# def render_report(report):
+#     STATIC_SERVER = "http://" + os.environ["CURRENT_IP"] + ":" + os.environ["NGINX_PORT"]
+#     full_path = STATIC_SERVER + "/" + "daily_BY" + "/" + report + "/report.html" 
+#     print(full_path)
+#     return redirect(full_path, 303)
 
 
 def format_data(entries):
