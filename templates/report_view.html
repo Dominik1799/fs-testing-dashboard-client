@@ -38,7 +38,7 @@
                     {% for report in entry.reports %}
                         <TR>
                             <TD>{{report.test_name}}</TD>
-                            <TD class="{{ 'text-success' if report.test_results.result == 'Passed' else 'text-danger'}}">
+                            <TD class="{{ 'text-success' if report.test_results.percent == '100' else 'text-danger'}}">
                                 {{report.test_results.result}}
                             </TD>
                             <TD>{{report.test_results.tests}}</TD>
