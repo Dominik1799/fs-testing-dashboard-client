@@ -29,20 +29,21 @@ def logs(log):
 
 
 
-@app.route("/reports/", defaults={"report": ""})
-@app.route("/reports/<path:report>")
-def reports(report):
+@app.route("/reports/<version>/", defaults={"report": ""})
+@app.route("/reports/<version>/<path:report>")
+def reports(version, report):
     BASE_URL = os.environ["API_URL"]
     if report == "":
-        r = requests.get(BASE_URL + "/reports/")
+        r = requests.get(BASE_URL + "/reports/" + version)
+        print(BASE_URL + "/reports/" + version)
         if r.status_code != 200:
             return r.text, 500
         entries = r.json()
         entries = format_data(entries)
-        return render_template("reports.html", entries=entries)
-    r = requests.get(BASE_URL + "/reports/" + str(report))
+        return render_template("reports.html", entries=entries, version=version)
+    r = requests.get(BASE_URL + "/reports/" + version + "/" + str(report))
     nginx = os.environ["CURRENT_IP"] + ":" + os.environ["NGINX_PORT"]
-    return render_template("report_view.html", entry=r.json(), nginx=nginx, distribution="daily_BY")
+    return render_template("report_view.html", entry=r.json(), nginx=nginx, distribution=version)
 
 # for some reason does not work in docker
 # @app.route("/view/<report>/")
