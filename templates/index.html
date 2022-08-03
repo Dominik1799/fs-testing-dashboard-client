@@ -9,6 +9,50 @@
     </head>
     <body>
         {% include 'navbar.html' %}
+
+        <!-- daily BY -->
+        <div class="container">
+            <div class="card mt-2">
+                <div class="card-header">
+                    Latest testing day for <b>Daily BY</b>: {{ daily_BY.test_day }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Overall result: 
+                        <span class="{{ 'text-success' if daily_BY.summary.overall_success_percent == 100 else 'text-danger'}}">
+                            <b>{{ "OK" if daily_BY.summary.overall_success_percent == 100 else "FAIL" }}</b>
+                        </span>
+                    </h5>
+                    <p class="card-text">
+                        <span><b>Total number of test suites: </b> {{ daily_BY.summary.total_tests_executed }}</span> |
+                        <span><b>Successfull test suites: </b> {{ daily_BY.summary.successful_tests }}</span> |
+                        <span><b>Failed test suites: </b> {{ daily_BY.summary.failed_tests }}</span> |
+                        <span><b>Total runtime: </b> {{ daily_BY.summary.total_time }}</span>
+                    </p>
+                    <a href="/reports/daily_BY/{{ daily_BY.test_id }}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+    
+            <!-- daily BW  -->
+            <div class="card mt-2">
+                <div class="card-header">
+                    Latest testing day for <b>Daily BW</b>: {{ daily_BW.test_day }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Overall result: 
+                        <span class="{{ 'text-success' if daily_BW.summary.overall_success_percent == 100 else 'text-danger'}}">
+                            <b>{{ "OK" if daily_BW.summary.overall_success_percent == 100 else "FAIL" }}</b>
+                        </span>
+                    </h5>
+                    <p class="card-text">
+                        <span><b>Total number of test suites: </b> {{ daily_BW.summary.total_tests_executed }}</span> |
+                        <span><b>Successfull test suites: </b> {{ daily_BW.summary.successful_tests }}</span> |
+                        <span><b>Failed test suites: </b> {{ daily_BW.summary.failed_tests }}</span> |
+                        <span><b>Total runtime: </b> {{ daily_BW.summary.total_time }}</span>
+                    </p>
+                    <a href="/reports/daily_BW/{{ daily_BW.test_id }}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 

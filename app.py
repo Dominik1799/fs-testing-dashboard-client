@@ -10,7 +10,21 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    BASE_URL = os.environ["API_URL"]
+    daily_BY = requests.get(BASE_URL + "/reports/daily_BY/today")
+    is_today_BY = True
+    daily_BW = requests.get(BASE_URL + "/reports/daily_BW/today")
+    is_today_BY = True
+    if daily_BY.status_code == 404:
+        daily_BY = requests.get(BASE_URL + "/reports/daily_BY/latest")
+        is_today_BY = False
+    if daily_BW.status_code == 404:
+        daily_BW = requests.get(BASE_URL + "/reports/daily_BW/latest")
+        is_today_BW = False
+    # a bit of a workaround so format_data() can work for this response as well as for /reports/<version>
+    daily_BY = format_data([daily_BY.json()])[0]
+    daily_BW = format_data([daily_BW.json()])[0]
+    return render_template("index.html", daily_BY=daily_BY, daily_BW=daily_BW, is_today_BY=is_today_BY, is_today_BW=is_today_BW)
 
 
 @app.route("/logs/", defaults={"log": ""})
@@ -45,13 +59,6 @@ def reports(version, report):
     nginx = os.environ["CURRENT_IP"] + ":" + os.environ["NGINX_PORT"]
     return render_template("report_view.html", entry=r.json(), nginx=nginx, distribution=version)
 
-# for some reason does not work in docker
-# @app.route("/view/<report>/")
-# def render_report(report):
-#     STATIC_SERVER = "http://" + os.environ["CURRENT_IP"] + ":" + os.environ["NGINX_PORT"]
-#     full_path = STATIC_SERVER + "/" + "daily_BY" + "/" + report + "/report.html" 
-#     print(full_path)
-#     return redirect(full_path, 303)
 
 
 def format_data(entries):
