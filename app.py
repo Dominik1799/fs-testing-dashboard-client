@@ -13,6 +13,7 @@ def index():
     BASE_URL = os.environ["API_URL"]
     daily_BY = requests.get(BASE_URL + "/reports/daily_BY/today")
     is_today_BY = True
+    is_today_BW = True
     daily_BW = requests.get(BASE_URL + "/reports/daily_BW/today")
     is_today_BY = True
     if daily_BY.status_code == 404:
