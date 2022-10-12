@@ -52,6 +52,48 @@
                     <a href="/reports/daily_BW/{{ daily_BW.test_id }}" class="btn btn-primary">Details</a>
                 </div>
             </div>
+
+            <!-- release BY  -->
+            <div class="card mt-2">
+                <div class="card-header">
+                    Latest testing day for <b>Release BY</b>: {{ release_BY.test_day }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Overall result: 
+                        <span class="{{ 'text-success' if release_BY.summary.overall_success_percent == 100 else 'text-danger'}}">
+                            <b>{{ "OK" if release_BY.summary.overall_success_percent == 100 else "FAIL" }}</b>
+                        </span>
+                    </h5>
+                    <p class="card-text">
+                        <span><b>Total number of test suites: </b> {{ release_BY.summary.total_tests_executed }}</span> |
+                        <span><b>Successfull test suites: </b> {{ release_BY.summary.successful_tests }}</span> |
+                        <span><b>Failed test suites: </b> {{ release_BY.summary.failed_tests }}</span> |
+                        <span><b>Total runtime: </b> {{ release_BY.summary.total_time }}</span>
+                    </p>
+                    <a href="/reports/release_BY/{{ release_BY.test_id }}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+
+            <!-- release BW  -->
+            <div class="card mt-2">
+                <div class="card-header">
+                    Latest testing day for <b>Release BY</b>: {{ release_BW.test_day }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Overall result: 
+                        <span class="{{ 'text-success' if release_BW.summary.overall_success_percent == 100 else 'text-danger'}}">
+                            <b>{{ "OK" if release_BW.summary.overall_success_percent == 100 else "FAIL" }}</b>
+                        </span>
+                    </h5>
+                    <p class="card-text">
+                        <span><b>Total number of test suites: </b> {{ release_BW.summary.total_tests_executed }}</span> |
+                        <span><b>Successfull test suites: </b> {{ release_BW.summary.successful_tests }}</span> |
+                        <span><b>Failed test suites: </b> {{ release_BW.summary.failed_tests }}</span> |
+                        <span><b>Total runtime: </b> {{ release_BW.summary.total_time }}</span>
+                    </p>
+                    <a href="/reports/release_BW/{{ release_BW.test_id }}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
         </div>
     </body>
 </html>

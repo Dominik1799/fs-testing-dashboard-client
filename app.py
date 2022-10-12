@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 import os
 import requests
 from dotenv import load_dotenv
@@ -10,22 +10,34 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    print(request.headers)
     BASE_URL = os.environ["API_URL"]
     daily_BY = requests.get(BASE_URL + "/reports/daily_BY/today")
-    is_today_BY = True
-    is_today_BW = True
     daily_BW = requests.get(BASE_URL + "/reports/daily_BW/today")
-    is_today_BY = True
+    is_today_daily_BY = True
+    is_today_daily_BW = True
+    is_today_release_BW = True
+    is_today_release_BY = True
     if daily_BY.status_code == 404:
         daily_BY = requests.get(BASE_URL + "/reports/daily_BY/latest")
-        is_today_BY = False
+        is_today_daily_BY = False
     if daily_BW.status_code == 404:
         daily_BW = requests.get(BASE_URL + "/reports/daily_BW/latest")
-        is_today_BW = False
+        is_today_daily_BW = False
+    if daily_BW.status_code == 404:
+        daily_BW = requests.get(BASE_URL + "/reports/release_BY/latest")
+        is_today_release_BY = False
+    if daily_BW.status_code == 404:
+        daily_BW = requests.get(BASE_URL + "/reports/release_BW/latest")
+        is_today_release_BW = False
     # a bit of a workaround so format_data() can work for this response as well as for /reports/<version>
     daily_BY = format_data([daily_BY.json()])[0]
     daily_BW = format_data([daily_BW.json()])[0]
-    return render_template("index.html", daily_BY=daily_BY, daily_BW=daily_BW, is_today_BY=is_today_BY, is_today_BW=is_today_BW)
+    release_BY = format_data([release_BY.json()])[0]
+    release_BW = format_data([release_BW.json()])[0]
+    return render_template("index.html", daily_BY=daily_BY, daily_BW=daily_BW, release_BW=release_BW, release_BY=release_BY, 
+                                        is_today_BY=is_today_daily_BY, is_today_BW=is_today_daily_BW,
+                                        is_today_release_BY=is_today_release_BY, is_today_release_BW=is_today_release_BW)
 
 
 @app.route("/logs/", defaults={"log": ""})
