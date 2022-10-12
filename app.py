@@ -14,6 +14,8 @@ def index():
     BASE_URL = os.environ["API_URL"]
     daily_BY = requests.get(BASE_URL + "/reports/daily_BY/today")
     daily_BW = requests.get(BASE_URL + "/reports/daily_BW/today")
+    release_BY = requests.get(BASE_URL + "/reports/release_BY/today")
+    release_BW = requests.get(BASE_URL + "/reports/release_BW/today")
     is_today_daily_BY = True
     is_today_daily_BW = True
     is_today_release_BW = True
@@ -24,11 +26,11 @@ def index():
     if daily_BW.status_code == 404:
         daily_BW = requests.get(BASE_URL + "/reports/daily_BW/latest")
         is_today_daily_BW = False
-    if daily_BW.status_code == 404:
-        daily_BW = requests.get(BASE_URL + "/reports/release_BY/latest")
+    if release_BY.status_code == 404:
+        release_BY = requests.get(BASE_URL + "/reports/release_BY/latest")
         is_today_release_BY = False
-    if daily_BW.status_code == 404:
-        daily_BW = requests.get(BASE_URL + "/reports/release_BW/latest")
+    if release_BW.status_code == 404:
+        release_BW = requests.get(BASE_URL + "/reports/release_BW/latest")
         is_today_release_BW = False
     # a bit of a workaround so format_data() can work for this response as well as for /reports/<version>
     daily_BY = format_data([daily_BY.json()])[0]
