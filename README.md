@@ -11,3 +11,5 @@
 3. activate the venv using "./venv/Scripts/activate"
 4. run "pip install -r requirements.txt"
 5. run the app using "python app.py"
+
+The rest of the components required to debug this while developing should be ran as docker containers (NGINX, mongoDB and fs-testing-dashboard).
